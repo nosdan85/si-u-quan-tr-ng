@@ -1,0 +1,205 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Dark Gaming Gradient - Cyber/Gaming Style
+   Navy backgrounds, neon blue-purple gradients, cyberpunk aesthetic
+*/
+:root {
+  /* Navy/Midnight Blue Backgrounds */
+  --bg: #050B1E;
+  --bg-2: #0A1026;
+  --bg-3: #0F172A;
+  --card: rgba(15, 23, 42, 0.9);
+
+  /* Neon Blue-Purple Spectrum */
+  --neon-blue: #4DA3FF;
+  --purple: #8B5CF6;
+  --pink: #EC4899;
+
+  /* Button Gradients */
+  --btn-blue: #3B82F6;
+  --btn-purple: #9333EA;
+
+  /* Text Colors */
+  --text: #E2E8F0;
+  --text-muted: rgba(226, 232, 240, 0.65);
+
+  /* Accent Colors */
+  --accent-blue: #60A5FA;
+  --accent-purple: #A78BFA;
+}
+
+@layer base {
+  * {
+    @apply border-0;
+  }
+
+  body {
+    /* Dark Gaming Gradient: navy background with neon blue-purple glows */
+    background:
+      radial-gradient(circle at 20% 0%, rgba(77, 163, 255, 0.15), transparent 50%),
+      radial-gradient(circle at 80% 30%, rgba(139, 92, 246, 0.12), transparent 55%),
+      radial-gradient(circle at 50% 100%, rgba(236, 72, 153, 0.08), transparent 60%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+    color: var(--text);
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji",
+      "Segoe UI Emoji", "Segoe UI Symbol";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 0.2px;
+  }
+}
+
+@layer components {
+
+  /* Primary button with blue -> purple gradient (Gaming CTA) */
+  .btn-gold {
+    @apply rounded-full px-6 py-3 font-semibold transition-all duration-300;
+    background: linear-gradient(135deg, var(--btn-blue), var(--btn-purple));
+    color: white;
+    box-shadow:
+      0 0 0 1px rgba(139, 92, 246, 0.3),
+      0 12px 28px rgba(0, 0, 0, 0.6);
+  }
+
+  .btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 0 24px rgba(139, 92, 246, 0.5),
+      0 0 40px rgba(77, 163, 255, 0.3),
+      0 18px 40px rgba(0, 0, 0, 0.75);
+  }
+
+  /* Outline button with neon blue accent */
+  .btn-gold-outline {
+    @apply rounded-full px-6 py-3 font-semibold transition-all duration-300;
+    background: transparent;
+    color: var(--neon-blue);
+    box-shadow: inset 0 0 0 1px rgba(77, 163, 255, 0.5);
+  }
+
+  .btn-gold-outline:hover {
+    background: rgba(77, 163, 255, 0.15);
+    color: var(--accent-blue);
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 0 0 1px rgba(77, 163, 255, 0.75),
+      0 0 20px rgba(77, 163, 255, 0.35);
+  }
+
+  /* Card with dark navy background and cyberpunk neon glow */
+  .card-glow {
+    @apply rounded-2xl transition-all duration-300;
+    background: linear-gradient(180deg,
+        rgba(15, 23, 42, 0.95),
+        rgba(10, 16, 38, 0.92));
+    box-shadow:
+      0 22px 48px rgba(0, 0, 0, 0.6),
+      inset 0 0 0 1px rgba(77, 163, 255, 0.15);
+  }
+
+  .card-glow:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow:
+      0 30px 70px rgba(0, 0, 0, 0.75),
+      0 0 32px rgba(139, 92, 246, 0.25),
+      0 0 48px rgba(77, 163, 255, 0.15),
+      inset 0 0 0 1px rgba(139, 92, 246, 0.35);
+  }
+
+  /* Text highlight with neon purple glow */
+  .text-neon {
+    color: var(--purple);
+    text-shadow: 0 0 14px rgba(139, 92, 246, 0.5);
+  }
+
+  /* Input: dark glass with neon blue focus glow */
+  .input-field {
+    @apply w-full rounded-xl px-4 py-3 focus:outline-none transition-all;
+    background: rgba(10, 16, 38, 0.6);
+    color: var(--text);
+    box-shadow:
+      inset 0 0 0 1px rgba(77, 163, 255, 0.2),
+      0 12px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .input-field::placeholder {
+    color: rgba(226, 232, 240, 0.4);
+  }
+
+  .input-field:focus {
+    box-shadow:
+      inset 0 0 0 1px rgba(77, 163, 255, 0.6),
+      0 0 26px rgba(139, 92, 246, 0.3),
+      0 18px 45px rgba(0, 0, 0, 0.55);
+  }
+
+  /* Scrollbar with neon blue-purple accent */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(10, 16, 38, 0.6);
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(139, 92, 246, 0.6);
+    border-radius: 999px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(77, 163, 255, 0.8);
+  }
+}
+
+@layer utilities {
+  .glow-sm {
+    box-shadow: 0 0 12px rgba(77, 163, 255, 0.3);
+  }
+
+  .glow-md {
+    box-shadow: 0 0 22px rgba(139, 92, 246, 0.35);
+  }
+
+  .glow-lg {
+    box-shadow: 0 0 34px rgba(139, 92, 246, 0.4);
+  }
+
+  /* Gaming gradient: neon blue -> purple -> pink */
+  .text-gradient {
+    background: linear-gradient(135deg, var(--neon-blue) 0%, var(--purple) 50%, var(--pink) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* Animations */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}

@@ -1,0 +1,41 @@
+{
+  "name": "game-shop-discord",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "extract-data": "ts-node -P tsconfig.bot.json scripts/extractShopData.ts",
+    "bot": "ts-node -P tsconfig.bot.json bot/index.ts",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.9.1",
+    "axios": "^1.6.7",
+    "clsx": "^2.1.0",
+    "discord.js": "^14.25.1",
+    "dotenv": "^17.2.3",
+    "lucide-react": "^0.323.0",
+    "next": "^14.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^2.2.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@next/swc-win32-x64-msvc": "^16.1.6",
+    "@types/node": "^20.19.30",
+    "@types/react": "^18.2.52",
+    "@types/react-dom": "^18.2.18",
+    "autoprefixer": "^10.4.17",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^14.1.0",
+    "postcss": "^8.4.35",
+    "prisma": "^5.9.1",
+    "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

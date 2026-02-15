@@ -1,0 +1,10 @@
+npm run dev
+
+npm run bot
+
+
+npm run extract-data
+
+morris257.marie@outlook.com
+
+6!3TAo8oY9
