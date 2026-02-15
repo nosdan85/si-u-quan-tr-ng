@@ -16,7 +16,6 @@ interface CartStore {
   items: CartItem[];
   isOpen: boolean;
 
-  // Actions
   addItem: (item: Omit<CartItem, 'quantity'>) => void;
   removeItem: (itemName: string) => void;
   updateQuantity: (itemName: string, quantity: number) => void;
@@ -25,7 +24,6 @@ interface CartStore {
   openCart: () => void;
   closeCart: () => void;
 
-  // Getters
   getTotalItems: () => number;
   getTotalPrice: () => number;
 }
@@ -115,14 +113,18 @@ export const useCartStore = create<CartStore>()(
     {
       name: 'bloxfruits-cart-storage',
 
-      // 🔥 SSR SAFE STORAGE
-      storage: createJSONStorage(() =>
-        typeof window !== 'undefined'
-          ? localStorage
-          : undefined
-      ),
+      // ✅ FIX TYPE ERROR (SSR SAFE)
+      storage: createJSONStorage(() => {
+        if (typeof window !== 'undefined') {
+          return localStorage;
+        }
+        return {
+          getItem: () => null,
+          setItem: () => {},
+          removeItem: () => {},
+        };
+      }),
 
-      // 🔥 QUAN TRỌNG CHO NEXT APP ROUTER
       skipHydration: true,
     }
   )
