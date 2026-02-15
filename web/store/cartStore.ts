@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 export interface CartItem {
   name: string;
@@ -15,7 +15,7 @@ export interface CartItem {
 interface CartStore {
   items: CartItem[];
   isOpen: boolean;
-  
+
   // Actions
   addItem: (item: Omit<CartItem, 'quantity'>) => void;
   removeItem: (itemName: string) => void;
@@ -24,7 +24,7 @@ interface CartStore {
   toggleCart: () => void;
   openCart: () => void;
   closeCart: () => void;
-  
+
   // Getters
   getTotalItems: () => number;
   getTotalPrice: () => number;
@@ -38,8 +38,10 @@ export const useCartStore = create<CartStore>()(
 
       addItem: (item) => {
         set((state) => {
-          const existingItem = state.items.find((i) => i.name === item.name);
-          
+          const existingItem = state.items.find(
+            (i) => i.name === item.name
+          );
+
           if (existingItem) {
             return {
               items: state.items.map((i) =>
@@ -49,7 +51,7 @@ export const useCartStore = create<CartStore>()(
               ),
             };
           }
-          
+
           return {
             items: [...state.items, { ...item, quantity: 1 }],
           };
@@ -58,7 +60,9 @@ export const useCartStore = create<CartStore>()(
 
       removeItem: (itemName) => {
         set((state) => ({
-          items: state.items.filter((item) => item.name !== itemName),
+          items: state.items.filter(
+            (item) => item.name !== itemName
+          ),
         }));
       },
 
@@ -67,10 +71,12 @@ export const useCartStore = create<CartStore>()(
           get().removeItem(itemName);
           return;
         }
-        
+
         set((state) => ({
           items: state.items.map((item) =>
-            item.name === itemName ? { ...item, quantity } : item
+            item.name === itemName
+              ? { ...item, quantity }
+              : item
           ),
         }));
       },
@@ -92,18 +98,32 @@ export const useCartStore = create<CartStore>()(
       },
 
       getTotalItems: () => {
-        return get().items.reduce((total, item) => total + item.quantity, 0);
+        return get().items.reduce(
+          (total, item) => total + item.quantity,
+          0
+        );
       },
 
       getTotalPrice: () => {
         return get().items.reduce(
-          (total, item) => total + item.priceNum * item.quantity,
+          (total, item) =>
+            total + item.priceNum * item.quantity,
           0
         );
       },
     }),
     {
       name: 'bloxfruits-cart-storage',
+
+      // 🔥 SSR SAFE STORAGE
+      storage: createJSONStorage(() =>
+        typeof window !== 'undefined'
+          ? localStorage
+          : undefined
+      ),
+
+      // 🔥 QUAN TRỌNG CHO NEXT APP ROUTER
+      skipHydration: true,
     }
   )
 );
