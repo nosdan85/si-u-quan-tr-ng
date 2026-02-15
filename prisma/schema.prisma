@@ -1,37 +1,70 @@
-// This is your Prisma schema file
+// This is the Prisma schema file for a game shop
 
-generator client {
-  provider = "prisma-client-js"
-}
+// Database connection settings
+// Please adjust the provider and url as per your database configuration
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql" // Modify based on your DB, e.g., "mysql", "sqlite"
   url      = env("DATABASE_URL")
 }
 
+// This is the Prisma model definitions
+
 model User {
-  id              Int      @id @default(autoincrement())
-  discordId       String   @unique
-  discordUsername String
-  discordAvatar   String?
-  linkedAt        DateTime @default(now())
-  orders          Order[]
-  
-  @@map("users")
+  id               Int               @id @default(autoincrement())
+  name             String
+  email            String            @unique
+  password         String
+  orders           Order[]           @relation("UserOrders")
+  linkedAccounts   LinkedAccount[]   @relation("UserLinkedAccounts")
+  sessions         Session[]         @relation("UserSessions")
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model Product {
+  id               Int               @id @default(autoincrement())
+  name             String
+  description      String
+  price            Float
+  stock            Int
+  orders           OrderProduct[]    @relation("ProductOrders")
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
 }
 
 model Order {
-  id              Int       @id @default(autoincrement())
+  id               Int               @id @default(autoincrement())
   userId          Int
-  user            User      @relation(fields: [userId], references: [id])
-  orderNumber     String    @unique
-  items           String    // JSON string of cart items
-  totalAmount     Float
-  status          String    @default("pending") // pending, completed, cancelled
-  paymentMethod   String?   // paypal, ltc, applepay
-  discordTicketId String?   // Discord channel ID of the ticket
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  @@map("orders")
+  user            User              @relation("UserOrders", fields: [userId], references: [id])
+  products        OrderProduct[]     @relation("OrderProducts")
+  totalAmount      Float
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model OrderProduct {
+  id               Int               @id @default(autoincrement())
+  productId       Int
+  orderId         Int
+  quantity        Int
+  product         Product            @relation("ProductOrders", fields: [productId], references: [id])
+  order           Order              @relation("OrderProducts", fields: [orderId], references: [id])
+}
+
+model Session {
+  id               Int               @id @default(autoincrement())
+  userId          Int
+  user            User              @relation("UserSessions", fields: [userId], references: [id])
+  sessionToken     String            @unique
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model LinkedAccount {
+  id               Int               @id @default(autoincrement())
+  userId          Int
+  provider         String            // social media provider name (e.g., Google, Facebook)
+  providerAccountId String            // unique identifier for the user in the provider
+  user            User              @relation("UserLinkedAccounts", fields: [userId], references: [id])
 }
